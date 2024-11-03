@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 
-app.get('/',function(req,res) {
-    res.json({success:true})
+app.get('/api',function(req,res) {
+    res.json({success:true,message: 'welcome to learning app api'})
 })
 
 

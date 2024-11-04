@@ -34,3 +34,5 @@ const start = async () => {
 
 // call the start function
 start();
+
+module.exports = app;

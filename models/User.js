@@ -2,36 +2,44 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const UserSchema = new mongoose.Schema({
-    username: {
-        type: String, 
-        lowercase: true, 
-        unique: true, 
-        required: [true, "can't be blank"], 
-        match: [/^[a-zA-Z0-9]+$/, 'is invalid'], 
-        index: true
-    },
-    email: {
-        type: String, 
-        lowercase: true, 
-        unique: true, 
-        required: [true, "can't be blank"], 
-        match: [/\S+@\S+\.\S+/, 'is invalid'], 
-        index: true
-    },
-    isCreator: {
-        type: Boolean,
-        default: false
-    },
-    salt: String,
-    hash: String,
-    token: {
-        type: String,
-        nullable: true,
-    }
-  },
-  { timestamps: true }
-);
+const UserSchema = new mongoose.Schema({  
+    username: {  
+        type: String,   
+        lowercase: true,   
+        unique: true,   
+        required: [true, "can't be blank"],   
+        match: [/^[a-zA-Z0-9]+$/, 'is invalid'],   
+        index: true  
+    },  
+    email: {  
+        type: String,   
+        lowercase: true,   
+        unique: true,   
+        required: [true, "can't be blank"],   
+        match: [/\S+@\S+\.\S+/, 'is invalid'],   
+        index: true  
+    },  
+    googleId: {  
+        type: String, // Add this field for Google authentication  
+        unique: true,  
+        sparse: true // Allows for unique values only when present  
+    }, 
+    googleId: {  
+        type: String, // Add this field for Google authentication  
+        unique: true,  
+        sparse: true // Allows for unique values only when present  
+    },  
+    isCreator: {  
+        type: Boolean,  
+        default: false  
+    },  
+    salt: String,  
+    hash: String,  
+    token: {  
+        type: String,  
+        nullable: true,  
+    }  
+}, { timestamps: true });
 
 
 UserSchema.methods.setPassword = function(password) {

@@ -2,9 +2,21 @@ const express = require("express");
 const app = express();
 const welcomeRoute = require("../routes/welcome.route");
 const authRoute = require("../routes/auth.route");
+const telegramRoute = require("../routes/telegram.route");
 const connect = require('../db/connect')
 require('dotenv').config()
-app.use(express.json())
+
+// Middleware for session management  
+// app.use(session({  
+//     secret: process.env.SESSION_SECRET,  
+//     resave: false,  
+//     saveUninitialized: true,  
+// }));  
+
+app.use(express.json());  
+app.use(express.urlencoded({ extended: true }));  
+// app.use(passport.initialize());  
+// app.use(passport.session());  
 
 // var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -20,7 +32,7 @@ app.use(express.json())
 //   }
 // ));
 app.use("/", welcomeRoute);
-app.use("/api/v1", authRoute)
+app.use("/api/v1", [authRoute, telegramRoute]);
 const port = process.env.PORT || 3000
 // a function to start the server  and listen to the port defined
 const start = async () => {

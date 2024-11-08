@@ -27,7 +27,7 @@ const login = async (req, res) => {
     
     try {
         const user = await User.findOne({ $or: [{ username }, { username: username }] });
-        console.log('user',user);
+
         if (!user) {
             return res.status(401).json({ error: 'Invalid username or password' });
         }
@@ -37,7 +37,6 @@ const login = async (req, res) => {
         }
 
         const token = user.generateToken();
-        console.log('token', token);
 
         res.status(200).json({ 
         success: true, 

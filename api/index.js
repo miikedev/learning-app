@@ -3,6 +3,7 @@ const app = express();
 const welcomeRoute = require("../routes/welcome.route");
 const authRoute = require("../routes/auth.route");
 const telegramRoute = require("../routes/telegram.route");
+const UserRoute = require("../routes/users.route");
 const connect = require('../db/connect')
 require('dotenv').config()
 
@@ -32,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 //   }
 // ));
 app.use("/", welcomeRoute);
-app.use("/api/v1", [authRoute, telegramRoute]);
+app.use("/api/v1", [authRoute, telegramRoute, UserRoute]);
 const port = process.env.PORT || 3000
 // a function to start the server  and listen to the port defined
 const start = async () => {

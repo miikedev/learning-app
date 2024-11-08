@@ -16,12 +16,6 @@ require("dotenv").config({ path: ".env.development.local" }); // Override with .
 //     saveUninitialized: true,
 // }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with a strong secret key
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false } // Set `secure: true` in production with HTTPS
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(passport.initialize());

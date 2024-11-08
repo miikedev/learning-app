@@ -1,4 +1,4 @@
-const { callback } = require("../controllers/TelegramController")
+const {callback} = require('../controllers/telegramController')
 const express = require("express");
 const router = express.Router();
 

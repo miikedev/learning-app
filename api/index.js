@@ -1,23 +1,31 @@
-const express = require("express");
+const express = require('express');
 const app = express();
+
 const welcomeRoute = require("../routes/welcome.route");
 const authRoute = require("../routes/auth.route");
 const telegramRoute = require("../routes/telegram.route");
 const UserRoute = require("../routes/users.route");
-const connect = require('../db/connect')
-require('dotenv').config()
+const connect = require("../db/connect");
 
-// Middleware for session management  
-// app.use(session({  
-//     secret: process.env.SESSION_SECRET,  
-//     resave: false,  
-//     saveUninitialized: true,  
-// }));  
+require("dotenv").config(); // Load .env
+require("dotenv").config({ path: ".env.development.local" }); // Override with .env.development.local
+// Middleware for session management
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+// }));
 
-app.use(express.json());  
-app.use(express.urlencoded({ extended: true }));  
-// app.use(passport.initialize());  
-// app.use(passport.session());  
+app.use(session({
+  secret: process.env.SESSION_SECRET, // Replace with a strong secret key
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set `secure: true` in production with HTTPS
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -34,11 +42,13 @@ app.use(express.urlencoded({ extended: true }));
 // ));
 app.use("/", welcomeRoute);
 app.use("/api/v1", [authRoute, telegramRoute, UserRoute]);
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 // a function to start the server  and listen to the port defined
 const start = async () => {
   try {
-    await connect(process.env.MONGO_URI).then(() => console.log('mongodb started'));
+    await connect(process.env.MONGO_URI).then(() =>
+      console.log("mongodb started")
+    );
     app.listen(port, () => console.log(`server is running on port ${port}`));
   } catch (error) {
     console.log(error);

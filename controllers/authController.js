@@ -1,12 +1,4 @@
 const User = require('../models/User')
-const users = async (req,res) => {
-    const users = await User.find({});
-    console.log(users);
-    res.json({
-        success: true,
-        users: users,
-    })
-}
 
 const register = async (req,res) => {
     try {
@@ -62,4 +54,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = {login, register, users}
+module.exports = {login, register}

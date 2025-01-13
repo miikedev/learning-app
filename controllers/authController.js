@@ -1,9 +1,10 @@
 const User = require("../models/User");
-
+const logger = require('../logs')
 const register = async (req, res) => {
   try {
-    const { username, email, password, is_creator } = req.body;
-    const user = new User({ username, email, isCreator: is_creator });
+    const { username, email, password } = req.body;
+    console.log(req.body)
+    const user = new User({ username, email });
     user.setPassword(password);
     await user.save();
     user.token = user.generateToken();
@@ -16,10 +17,8 @@ const register = async (req, res) => {
         _id: user._id, // The user's unique ID
         username: user.username,
         email: user.email,
-        is_creator: user.isCreator,
-        token: user.token,
-        isCreator: user.isCreator,
       },
+      token: user.token,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -44,7 +43,10 @@ const login = async (req, res) => {
 
     const token = user.generateToken();
     // Store user ID in the session to maintain login state
+    logger.info('retrieved user _id',user._id)
+
     req.session.userId = user._id;
+    // logger.info('user id stored from user._id',req.session.userId)
     
     res.status(200).json({
       success: true,
@@ -53,12 +55,11 @@ const login = async (req, res) => {
         _id: user._id, // The user's unique ID
         username: user.username,
         email: user.email,
-        is_creator: user.isCreator,
-        token: token,
-        isCreator: user.isCreator,
       },
+      token: token,
     });
   } catch (error) {
+    logger.error(error.message);
     res.status(500).json({ error: error.message });
   }
 };

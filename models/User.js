@@ -23,15 +23,6 @@ const UserSchema = new mongoose.Schema({
         type: String, // Add this field for Google authentication  
         unique: true,  
         sparse: true // Allows for unique values only when present  
-    }, 
-    googleId: {  
-        type: String, // Add this field for Google authentication  
-        unique: true,  
-        sparse: true // Allows for unique values only when present  
-    },  
-    isCreator: {  
-        type: Boolean,  
-        default: false  
     },  
     salt: String,  
     hash: String,  
@@ -61,7 +52,6 @@ UserSchema.statics.createDefaultAdmin = async function(username, email, password
     const admin = new this({
         username: username,
         email: email,
-        isCreator: true
     });
     admin.setPassword(password);
     await admin.save();

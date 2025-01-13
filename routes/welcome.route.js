@@ -6,7 +6,7 @@ const timeLog = (req, res, next) => {
   }
 router.use(timeLog)
 router.get('/',(req,res) => {
-    res.json({ success: true, message: 'Welcome to the Learning App API' });
+    res.json({ success: true, message: 'Welcome to the Unit API' });
 } );
 
 module.exports = router;

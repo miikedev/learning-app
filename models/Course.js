@@ -35,7 +35,17 @@ const courseSchema = new Schema({
     hasEntranceExam: {  
         type: Boolean,  
         required: true, // Indicates if there is an entrance exam  
-    }  
+    },
+    coverImage: {
+        type: String,  
+        required: false, // Cover image URL is mandatory  
+        validate: {
+            validator: function(v) {
+                return /^https?:\/\/.+\.(?:jpg|jpeg|png)$/i.test(v);
+            },
+            message: "Cover image URL is not valid"
+        }
+    }
 }, {  
     timestamps: true // Automatically manage createdAt and updatedAt timestamps  
 });  

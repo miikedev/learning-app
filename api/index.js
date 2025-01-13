@@ -11,6 +11,7 @@ const connect = require("../db/connect");
 const bodyParser = require('body-parser');
 require("dotenv").config(); // Load .env
 require("dotenv").config({ path: ".env.development.local" }); // Override with .env.development.local
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET, // Use a secure secret key
@@ -23,6 +24,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // app.use(passport.initialize());
 // app.use(passport.session());
 // var GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -37,6 +39,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     });
 //   }
 // ));
+app.get('/',(req,res) => {
+  res.json({msg: 'welcome to unit api'})
+})
 app.use("/api/v1", [
   authRoute,
   telegramRoute,
@@ -45,7 +50,7 @@ app.use("/api/v1", [
   PositionRoute,
 ]);
 const port = process.env.PORT || 3000;
-console.log(process.env.MONGO_URI);
+
 // a function to start the server  and listen to the port defined
 const start = async () => {
   try {
